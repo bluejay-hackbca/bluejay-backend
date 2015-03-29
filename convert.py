@@ -3,6 +3,7 @@
 
 import wikipedia
 import markdown2
+import json
 import urllib
 
 
@@ -21,7 +22,8 @@ def to_markdown(text, key_words):
         highlights[text] = summary
 
         thumbdata = urllib2.urlopen("http://en.wikipedia.org/w/api.php?action=query&titles=%s&prop=pageimages&format=json&pithumbsize=500&continue=" % text.replace(" ", "%20")).read()
-        thumburl = thumbdata["query"]["pages"].keys()[0]["thumbnail"]["source"]
+        jsondata = json.load(thumbdata)
+        thumburl = jsondata["query"]["pages"].keys()[0]["thumbnail"]["source"]
         images.append(thumburl)
     else:
         if themes is not None:
