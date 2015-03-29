@@ -2,20 +2,48 @@
 
 
 import wikipedia
-gw = wikipedia.page("george washington")
-gwImage = gw.images[0]
-gwSummary = wikipedia.summary("george washington", sentences = 2)
-print gwImage
-print gwSummary
 
 
 
 
-def to_markdown(text):
-    importants = {
-        "George Washington": "George Washington (February 22, 1732 [O.S. February 11, 1731][Note 1][Note 2] – December 14, 1799) was the first President of the United States (1789–1797), the Commander-in-Chief of the Continental Army during the American Revolutionary War, and one of the Founding Fathers of the United States.[4] He presided over the convention that drafted the United States Constitution, which replaced the Articles of Confederation and remains the supreme law of the land.",
-        "Lorem Ipsum" : "Bacon ipsum dolor amet hamburger flank meatball, brisket salami jowl bresaola drumstick ball tip spare ribs landjaeger. Shankle picanha pork chop bacon meatball sirloin t-bone ham hock meatloaf jerky pork venison. Fatback meatball corned beef pancetta, frankfurter short loin beef shankle t-bone chicken short ribs bresaola cow. Kevin turkey bacon hamburger meatloaf sirloin prosciutto strip steak. Ground round andouille capicola, rump doner tenderloin chuck landjaeger."
-    }
+def to_markdown(text, key_words):
+    highlights = {}
+    images = []
+    themes = key_words['themes']
+    entities = key_words['entities']
+    for theme in themes:
+        wiki = wikipedia.page(theme)
+        summary = wikipedia.summary(theme, sentences=2)
+        highlights[theme] = summary
+    for entity in entities:
+        wiki = wikipedia.page(entity)
+        image = wiki.images[0]
+        images.append(image)
+        summary = wikipedia.summary(entity, sentences = 2)
+        highlights[theme] = summary
+   
+    #Create the markdown page
+    md = ""
+    
+    #header
+    md += "#%s" % themes[0]
+    md += "<br><br>"
+
+    # single image
+    md += "![Hurr](%s)" % images[0]
+    md += "<br><br>"
+
+    # main text body
+    md += text
+    md += "<br><br>"
+
+    # key terms
+    for highlight in highlights:
+        md += "* %s - %s" % (highlight, highlights[highlight])
+
+    return md
+
+
 
 
 MD_FIXTURE = """
