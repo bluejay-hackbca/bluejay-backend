@@ -9,37 +9,42 @@ import wikipedia
 def to_markdown(text, key_words):
     highlights = {}
     images = []
-    themes = key_words['themes']
-    entities = key_words['entities']
-    for theme in themes:
-        wiki = wikipedia.page(theme)
-        summary = wikipedia.summary(theme, sentences=2)
-        highlights[theme] = summary
-    for entity in entities:
-        wiki = wikipedia.page(entity)
-        image = wiki.images[0]
-        images.append(image)
-        summary = wikipedia.summary(entity, sentences = 2)
-        highlights[theme] = summary
+    themes = key_words.get('themes')
+    entities = key_words.get('entities')
+    if themes != None:  
+        for theme in themes:
+            wiki = wikipedia.page(theme)
+            summary = wikipedia.summary(theme, sentences=2)
+            highlights[theme] = summary
+    if entities != None: 
+        for entity in entities:
+            wiki = wikipedia.page(entity)
+            image = wiki.images[0]
+            images.append(image)
+            summary = wikipedia.summary(entity, sentences = 2)
+            highlights[theme] = summary
    
     #Create the markdown page
     md = ""
     
     #header
-    md += "#%s" % themes[0]
-    md += "<br><br>"
+    if themes != None:
+        md += "# %s" % themes[0]
+        md += "<br><br>"
 
     # single image
-    md += "![Hurr](%s)" % images[0]
-    md += "<br><br>"
+    if images != None:
+        md += "![Hurr](%s)" % images[0]
+        md += "<br><br>"
 
     # main text body
     md += text
     md += "<br><br>"
 
     # key terms
-    for highlight in highlights:
-        md += "* %s - %s" % (highlight, highlights[highlight])
+    if highlights != None:
+        for highlight in highlights:
+            md += "* %s - %s<br>" % (highlight, highlights[highlight])
 
     return md
 
