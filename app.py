@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import flask
 from flask import Flask, request
 from analyze import analyze
 from convert import to_markdown
