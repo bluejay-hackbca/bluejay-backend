@@ -8,6 +8,10 @@ import urllib2
 
 page = ""
 
+def clear_page():
+    global page
+    page = ""
+
 def to_markdown(text, key_words):
     global page
     highlights = {}

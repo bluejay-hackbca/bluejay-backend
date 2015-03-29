@@ -3,7 +3,7 @@
 import flask
 from flask import Flask, request
 from analyze import analyze
-from convert import to_markdown
+from convert import to_markdown, clear_page
 import urllib2
 
 
@@ -23,6 +23,10 @@ def to_md():
         key_words = analyze(text);
         return to_markdown(text, key_words)
 
+@app.route("/refresh", methods=['GET'])
+def refresh():
+    clear_page()
+    return "done"
 
 if __name__=="__main__":
    app.debug=True
