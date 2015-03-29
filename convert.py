@@ -1,6 +1,12 @@
 # jin put your stuff in here.
 
 def TTM(text):
+    importants = {
+        "George Washington": "George Washington (February 22, 1732 [O.S. February 11, 1731][Note 1][Note 2] – December 14, 1799) was the first President of the United States (1789–1797), the Commander-in-Chief of the Continental Army during the American Revolutionary War, and one of the Founding Fathers of the United States.[4] He presided over the convention that drafted the United States Constitution, which replaced the Articles of Confederation and remains the supreme law of the land.",
+        "Lorem Ipsum" : "Bacon ipsum dolor amet hamburger flank meatball, brisket salami jowl bresaola drumstick ball tip spare ribs landjaeger. Shankle picanha pork chop bacon meatball sirloin t-bone ham hock meatloaf jerky pork venison. Fatback meatball corned beef pancetta, frankfurter short loin beef shankle t-bone chicken short ribs bresaola cow. Kevin turkey bacon hamburger meatloaf sirloin prosciutto strip steak. Ground round andouille capicola, rump doner tenderloin chuck landjaeger."
+    }
+
+
     pass
 
 
