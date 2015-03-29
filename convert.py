@@ -2,7 +2,7 @@
 
 
 import wikipedia
-
+import markdown2
 
 
 
@@ -11,41 +11,54 @@ def to_markdown(text, key_words):
     images = []
     themes = key_words.get('themes')
     entities = key_words.get('entities')
-    if themes != None:  
-        for theme in themes:
-            wiki = wikipedia.page(theme)
-            summary = wikipedia.summary(theme, sentences=2)
-            highlights[theme] = summary
-    if entities != None: 
-        for entity in entities:
-            wiki = wikipedia.page(entity)
-            image = wiki.images[0]
-            images.append(image)
-            summary = wikipedia.summary(entity, sentences = 2)
-            highlights[theme] = summary
-   
+    if len(text.split(" ")) < 3:
+        text = text.title()
+        wiki = wikipedia.page(text)
+        image = wiki.images[0]
+        images.append(image)
+        summary = wikipedia.summary(text, sentences = 2)
+        highlights[text] = summary
+    else:
+        if themes is not None:  
+            for theme in themes:
+                wiki = wikipedia.page(theme)
+                summary = wikipedia.summary(theme, sentences=2)
+                highlights[theme] = summary
+        if entities is not None:
+            for entity in entities:
+                wiki = wikipedia.page(entity)
+                image = wiki.images[0]
+                images.append(image)
+                summary = wikipedia.summary(entity, sentences = 2)
+                highlights[entity] = summary
+
+
     #Create the markdown page
     md = ""
     
     #header
-    if themes != None:
-        md += "# %s" % themes[0]
-        md += "<br><br>"
+    print("PRINTING THEMES")
+    print(highlights)
+    if highlights is not None and len(highlights) > 0:
+        md += "<h1> %s</h1>" % highlights.keys()[0]
 
     # single image
-    if images != None:
-        md += "![Hurr](%s)" % images[0]
-        md += "<br><br>"
+    if images is not None and len(images) > 0:
+        md += "<img src=\"%s\"/>" % images[0]
 
     # main text body
+    md += "<p>"
     md += text
-    md += "<br><br>"
+    md += "</p>"
 
     # key terms
-    if highlights != None:
+    if highlights is not None:
+        md += "<ul>"
         for highlight in highlights:
-            md += "* %s - %s<br>" % (highlight, highlights[highlight])
+            md += "<li> %s - %s</li>" % (highlight, highlights[highlight])
 
+
+    #md = markdown2.markdown(md)      
     return md
 
 
