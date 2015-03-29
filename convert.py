@@ -3,6 +3,7 @@
 
 import wikipedia
 import markdown2
+import urllib
 
 
 
@@ -15,11 +16,15 @@ def to_markdown(text, key_words):
         text = text.title()
         wiki = wikipedia.page(text)
         image = wiki.images[0]
-        images.append(image)
+        # images.append(image)
         summary = wikipedia.summary(text, sentences = 2)
         highlights[text] = summary
+
+        thumbdata = urllib2.urlopen("http://en.wikipedia.org/w/api.php?action=query&titles=%s&prop=pageimages&format=json&pithumbsize=500&continue=" % text.replace(" ", "%20")).read()
+        thumburl = thumbdata["query"]["pages"].keys()[0]["thumbnail"]["source"]
+        images.append(thumburl)
     else:
-        if themes is not None:  
+        if themes is not None:
             for theme in themes:
                 wiki = wikipedia.page(theme)
                 summary = wikipedia.summary(theme, sentences=2)
@@ -33,9 +38,10 @@ def to_markdown(text, key_words):
                 highlights[entity] = summary
 
 
+
     #Create the markdown page
     md = ""
-    
+
     #header
     print("PRINTING THEMES")
     print(highlights)
@@ -58,7 +64,7 @@ def to_markdown(text, key_words):
             md += "<li> %s - %s</li>" % (highlight, highlights[highlight])
 
 
-    #md = markdown2.markdown(md)      
+    #md = markdown2.markdown(md)
     return md
 
 
