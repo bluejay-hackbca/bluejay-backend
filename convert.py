@@ -6,9 +6,10 @@ import markdown2
 import json
 import urllib2
 
-
+page = ""
 
 def to_markdown(text, key_words):
+    global page
     highlights = {}
     images = []
     themes = key_words.get('themes')
@@ -23,8 +24,10 @@ def to_markdown(text, key_words):
 
         thumbdata = urllib2.urlopen("http://en.wikipedia.org/w/api.php?action=query&titles=%s&prop=pageimages&format=json&pithumbsize=500&continue=" % text.replace(" ", "%20"))
         jsondata = json.load(thumbdata)
-        thumburl = str(jsondata["query"]["pages"].values()[0]["thumbnail"]["source"])
-        images.append(thumburl)
+        tdata = jsondata["query"]["pages"].values()[0]
+        if "thumbnail" in tdata.keys():
+            thumburl = str(jsondata["query"]["pages"].values()[0]["thumbnail"]["source"])
+            images.append(thumburl)
     else:
         if themes is not None:
             for theme in themes:
@@ -64,10 +67,11 @@ def to_markdown(text, key_words):
         md += "<ul>"
         for highlight in highlights:
             md += "<li> %s - %s</li>" % (highlight, highlights[highlight])
-
+        md += "</ul>"
 
     #md = markdown2.markdown(md)
-    return md
+    page += md
+    return page
 
 
 
