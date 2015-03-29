@@ -13,7 +13,7 @@ def to_markdown(text, key_words):
     images = []
     themes = key_words.get('themes')
     entities = key_words.get('entities')
-    if len(text.split(" ")) < 3:
+    if len(text.split(" ")) < 4:
         text = text.title()
         wiki = wikipedia.page(text)
         image = wiki.images[0]
