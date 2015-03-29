@@ -1,21 +1,24 @@
+# -*- coding: utf-8 -*-
+
 from flask import Flask, request
-from convert import TTM, MD_FIXTURE
+from analyze import analyze
+from convert import to_markdown
+
+
 
 app = Flask(__name__)
 
-
 @app.route("/submit", methods=['POST'])
 def to_markdown():
-    if request.method=="POST":
-        #text = request.form['text'];
-        #print "printing:::"
-        #print text
+    if request.method == "POST":
+        # text = request.forms['text']
+        text_fixture = "World War II (WWII or WW2), also known as the Second World War (after the recent Great War), was a global war that lasted from 1939 to 1945, though related conflicts began earlier. It involved the vast majority of the world's nations—including all of the great powers—eventually forming two opposing military alliances: the Allies and the Axis."
+        text = text_fixture
 
-        # Manipulate the text here.
-        #return TTM(text)
-        return MD_FIXTURE
+        key_words = analyze(text_fixture);
+        print(key_words)
 
-
+        return "hurr"
 
 
 if __name__=="__main__":

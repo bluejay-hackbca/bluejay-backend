@@ -1,13 +1,31 @@
-# jin put your stuff in here.
+# -*- coding: utf-8 -*-
 
-def TTM(text):
+import re
+from mechanize import Browser
+br = Browser()
+br.set_handle_robots( False )
+br.addheaders = [('User-agent', 'Firefox')]
+
+
+search_term = 'george washington'
+
+br.open("http://www.google.com/")
+br.select_form('f')
+br.form['q'] = search_term
+br.submit()
+#br.follow_link( list(br.links())[0] )
+print list(br.links())[10]
+#br.follow_link( link )
+
+
+
+
+
+def to_markdown(text):
     importants = {
         "George Washington": "George Washington (February 22, 1732 [O.S. February 11, 1731][Note 1][Note 2] – December 14, 1799) was the first President of the United States (1789–1797), the Commander-in-Chief of the Continental Army during the American Revolutionary War, and one of the Founding Fathers of the United States.[4] He presided over the convention that drafted the United States Constitution, which replaced the Articles of Confederation and remains the supreme law of the land.",
         "Lorem Ipsum" : "Bacon ipsum dolor amet hamburger flank meatball, brisket salami jowl bresaola drumstick ball tip spare ribs landjaeger. Shankle picanha pork chop bacon meatball sirloin t-bone ham hock meatloaf jerky pork venison. Fatback meatball corned beef pancetta, frankfurter short loin beef shankle t-bone chicken short ribs bresaola cow. Kevin turkey bacon hamburger meatloaf sirloin prosciutto strip steak. Ground round andouille capicola, rump doner tenderloin chuck landjaeger."
     }
-
-
-    pass
 
 
 MD_FIXTURE = """
